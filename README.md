@@ -346,6 +346,77 @@ export const protectedMutation = mutation({
 });
 ```
 
+## Adding Google OAuth
+
+To add Google authentication alongside the existing password auth:
+
+### 1. Google Cloud Console Setup
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Navigate to **APIs & Services > Credentials**
+4. Click **Create Credentials > OAuth client ID**
+5. Select **Web application**
+6. Add authorized redirect URI:
+   ```
+   https://<your-deployment>.convex.site/api/auth/callback/google
+   ```
+   (Find your deployment name in `.env.local` under `CONVEX_SITE_URL`)
+
+### 2. Add Environment Variables
+
+Add to Convex dashboard (**Settings > Environment Variables**):
+
+| Variable | Value |
+|----------|-------|
+| `AUTH_GOOGLE_ID` | Your Google OAuth Client ID |
+| `AUTH_GOOGLE_SECRET` | Your Google OAuth Client Secret |
+
+### 3. Update Convex Auth
+
+```typescript
+// convex/auth.ts
+import { convexAuth } from "@convex-dev/auth/server";
+import { Password } from "@convex-dev/auth/providers/Password";
+import Google from "@convex-dev/auth/providers/Google";
+
+export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
+  providers: [
+    Password({ /* existing config */ }),
+    Google,
+  ],
+});
+```
+
+### 4. Add Sign-in Method to AuthService
+
+```typescript
+// src/app/core/auth/auth.service.ts
+async loginWithGoogle(): Promise<void> {
+  const result = await this.convex.action(api.auth.signIn, {
+    provider: 'google',
+  });
+  // OAuth will redirect to Google, then back to your callback URL
+}
+```
+
+### 5. Add Google Button to Login UI
+
+```html
+<button (click)="loginWithGoogle()" type="button">
+  Sign in with Google
+</button>
+```
+
+### How It Works
+
+1. User clicks "Sign in with Google"
+2. Convex redirects to Google OAuth consent screen
+3. User authorizes the app
+4. Google redirects back to `CONVEX_SITE_URL/api/auth/callback/google`
+5. Convex Auth exchanges the code for tokens and creates/updates the user
+6. User is redirected back to your app with a session
+
 ## Production Deployment
 
 ### Convex

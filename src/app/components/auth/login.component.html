@@ -1,0 +1,87 @@
+<app-auth-layout>
+  <header class="form-header">
+    <h1 class="form-title">Sign In</h1>
+    <p class="form-subtitle">Welcome back to your workspace</p>
+  </header>
+
+  @if (error()) {
+    <div class="error-message" role="alert">
+      <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+      </svg>
+      <span>{{ error() }}</span>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+    <div class="form-group">
+      <label for="email" class="form-label">Email Address</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        class="form-input"
+        placeholder="your@email.com"
+        autocomplete="email"
+        [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched"
+        [class.has-error]="form.controls.email.invalid && form.controls.email.touched"
+      />
+      @if (form.controls.email.invalid && form.controls.email.touched) {
+        <span class="field-error" role="alert">Please enter a valid email address</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="form-label">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        class="form-input"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        [attr.aria-invalid]="form.controls.password.invalid && form.controls.password.touched"
+        [class.has-error]="form.controls.password.invalid && form.controls.password.touched"
+      />
+      @if (form.controls.password.invalid && form.controls.password.touched) {
+        <span class="field-error" role="alert">Password must be at least 6 characters</span>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="submit-button"
+      [disabled]="form.invalid || isSubmitting()"
+      [class.is-loading]="isSubmitting()"
+    >
+      <span class="button-text">
+        @if (isSubmitting()) {
+          Authenticating
+        } @else {
+          Enter
+        }
+      </span>
+      <span class="button-arrow">
+        @if (isSubmitting()) {
+          <svg class="spinner" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+          </svg>
+        } @else {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M4 12h16m0 0l-6-6m6 6l-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        }
+      </span>
+    </button>
+  </form>
+
+  <footer class="form-footer">
+    <span class="footer-text">New here?</span>
+    <a routerLink="/auth/register" class="footer-link">
+      Create an account
+      <svg class="link-arrow" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+      </svg>
+    </a>
+  </footer>
+</app-auth-layout>

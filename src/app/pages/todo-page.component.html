@@ -1,0 +1,55 @@
+<div class="todo-page">
+  <!-- Decorative Background Elements -->
+  <div class="bg-accent bg-accent-1"></div>
+  <div class="bg-accent bg-accent-2"></div>
+
+  <header class="header">
+    <div class="header-content">
+      <div class="brand">
+        <span class="brand-text">A N G U L A R</span>
+        <div class="brand-divider"></div>
+        <span class="brand-text">C O N V E X</span>
+      </div>
+
+      <div class="user-section">
+        @if (auth.user(); as user) {
+          <div class="user-info">
+            <span class="user-label">Signed in as</span>
+            <span class="user-email">{{ user.email }}</span>
+          </div>
+        }
+        <button type="button" class="logout-button" (click)="onLogout()">
+          <span class="button-text">Sign Out</span>
+          <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <header class="page-header">
+        <div class="header-decoration">
+          <div class="deco-line"></div>
+          <span class="deco-number">01</span>
+        </div>
+        <h1 class="page-title">Your Tasks</h1>
+        <p class="page-subtitle">Elegantly manage your daily endeavors</p>
+      </header>
+
+      <div class="content-card">
+        <app-todo-form />
+        <div class="divider"></div>
+        <app-todo-list />
+      </div>
+
+      <footer class="page-footer">
+        <span class="footer-year">2026</span>
+        <span class="footer-divider">/</span>
+        <span class="footer-text">Crafted with precision</span>
+      </footer>
+    </div>
+  </main>
+</div>

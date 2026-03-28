@@ -1,0 +1,40 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="todo-form">
+  <label for="todo-input" class="visually-hidden">New task</label>
+  <div class="input-wrapper">
+    <input
+      id="todo-input"
+      type="text"
+      formControlName="text"
+      class="todo-input"
+      placeholder="What would you like to accomplish?"
+      [attr.aria-invalid]="form.controls.text.invalid && form.controls.text.touched"
+    />
+    <div class="input-line"></div>
+  </div>
+  <button
+    type="submit"
+    class="add-button"
+    [disabled]="form.invalid || isSubmitting()"
+    [class.is-loading]="isSubmitting()"
+  >
+    <span class="button-text">
+      @if (isSubmitting()) {
+        Adding
+      } @else {
+        Add Task
+      }
+    </span>
+    <span class="button-icon">
+      @if (isSubmitting()) {
+        <svg class="spinner" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+        </svg>
+      } @else {
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19" stroke-linecap="round"/>
+          <line x1="5" y1="12" x2="19" y2="12" stroke-linecap="round"/>
+        </svg>
+      }
+    </span>
+  </button>
+</form>

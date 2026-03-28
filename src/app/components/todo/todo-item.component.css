@@ -1,0 +1,136 @@
+/* Editorial Luxury Todo Item */
+
+:host {
+  --color-dark: #1a1a1a;
+  --color-light: #fafaf9;
+  --color-gold: #c9a87c;
+  --color-muted: #8a8a8a;
+  --color-border: #e5e5e5;
+  --color-error: #b91c1c;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  display: block;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  transition: opacity 0.3s var(--ease-out-expo);
+}
+
+.todo-item:hover .delete-button {
+  opacity: 1;
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color: var(--color-muted);
+}
+
+.todo-item.completed .checkbox-custom {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* Checkbox Styling */
+.todo-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  cursor: pointer;
+}
+
+.checkbox-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.todo-checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.checkbox-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  transition: all 0.3s var(--ease-out-expo);
+}
+
+.checkbox-custom svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: white;
+}
+
+.todo-checkbox:focus + .checkbox-custom {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 124, 0.15);
+}
+
+.todo-checkbox:hover + .checkbox-custom {
+  border-color: var(--color-gold);
+}
+
+/* Todo Text */
+.todo-text {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: var(--color-dark);
+  word-break: break-word;
+  line-height: 1.5;
+  transition: color 0.3s var(--ease-out-expo);
+}
+
+/* Delete Button */
+.delete-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s var(--ease-out-expo);
+}
+
+.delete-button:hover {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.delete-button:focus {
+  outline: none;
+  opacity: 1;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+/* Responsive - always show delete on touch */
+@media (hover: none) {
+  .delete-button {
+    opacity: 1;
+  }
+}
